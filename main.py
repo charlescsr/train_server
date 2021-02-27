@@ -2,6 +2,11 @@ from typing import Optional
 
 from fastapi import FastAPI
 from pydantic import BaseModel
+from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 
 app = FastAPI()
 
