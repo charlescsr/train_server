@@ -9,7 +9,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 
 app = FastAPI()
-
+model = None
 
 class Item(BaseModel):
     name: str
@@ -18,15 +18,19 @@ class Item(BaseModel):
 
 
 @app.get("/")
-def read_root():
+async def read_root():
     return {"Hello": "World"}
 
+@app.get("/ping")
+async def ping():
+    return {"ping": "pong"}
 
-@app.get("/items/{item_id}")
+'''
+@app.put("/model_set/{}")
 def read_item(item_id: int, q: Optional[str] = None):
     return {"item_id": item_id, "q": q}
-
+'''
 
 @app.put("/items/{item_id}")
-def update_item(item_id: int, item: Item):
+async def update_item(item_id: int, item: Item):
     return {"item_name": item.name, "item_id": item_id}
