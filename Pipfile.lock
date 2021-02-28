@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "2a05697ad87243261ae359e527700b44891fbbefefecd7411f43e59507e20376"
+            "sha256": "bcbd401a36a799f8c1dfe6fac303051e93bc34d9ea9d008c99ab14dd1f907abb"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -129,6 +129,13 @@
             "markers": "python_full_version >= '3.6.1'",
             "version": "==1.8"
         },
+        "python-multipart": {
+            "hashes": [
+                "sha256:f7bb5f611fc600d15fa47b3974c8aa16e93724513b49b5f95c81e6624c83fa43"
+            ],
+            "index": "pypi",
+            "version": "==0.0.5"
+        },
         "requests": {
             "hashes": [
                 "sha256:27973dd4a904a4f13b263a19c866c13b92a39ed1c964655f025f3f8d3d75b804",
@@ -196,6 +203,14 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==1.6.1"
+        },
+        "six": {
+            "hashes": [
+                "sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259",
+                "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"
+            ],
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "version": "==1.15.0"
         },
         "sklearn": {
             "hashes": [

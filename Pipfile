@@ -8,6 +8,7 @@ fastapi = "*"
 uvicorn = "*"
 sklearn = "*"
 requests = "*"
+python-multipart = "*"
 
 [dev-packages]
 
