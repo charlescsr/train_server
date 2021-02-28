@@ -9,7 +9,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 
 app = FastAPI()
-model = None
+models = {"lr": LinearRegression(), "lor": LogisticRegression(), "nb": GaussianNB(), "knn": KNeighborsClassifier(), 
+    "dtc": DecisionTreeClassifier(), "rfc": RandomForestClassifier()}
 
 class Item(BaseModel):
     name: str
