@@ -26,11 +26,9 @@ async def read_root():
 async def ping():
     return {"ping": "pong"}
 
-'''
-@app.put("/model_set/{}")
-def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
-'''
+@app.get("/model_set/{model_name}")
+async def read_item(model_name: str):
+    return {"model_name": str(models[model_name])}
 
 @app.put("/items/{item_id}")
 def update_item(item_id: int, item: Item):
