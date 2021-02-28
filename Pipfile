@@ -9,6 +9,7 @@ uvicorn = "*"
 sklearn = "*"
 requests = "*"
 python-multipart = "*"
+aiofiles = "*"
 
 [dev-packages]
 
