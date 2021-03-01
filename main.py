@@ -26,7 +26,7 @@ async def ping():
 
 @app.post("/model_set/{model_name}/")
 async def read_item(model_name: str, data: UploadFile = File(...)):
-    location = os.environ['CS_PATH']
+    location = os.environ['PATH']
     async with aiofiles.open(location+data.filename, 'wb') as dataset:
         content = await data.read()
         await dataset.write(content) 
