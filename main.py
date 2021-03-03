@@ -4,6 +4,7 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import aiofiles
+from pathlib import Path
 import os
 import numpy as np
 import pickle
@@ -27,9 +28,9 @@ async def read_root():
 async def ping():
     return {"ping": "pong"}
 
-@app.post("/model_set/{model_name}/")
+@app.post("/model_set/{model_name}/", response_class=FileResponse)
 async def read_item(model_name: str, data: UploadFile = File(...)):
-    location = os.environ['CS_PATH']
+    location = r"C:\\Users\\rchar\\Downloads\\train_server\\"
     async with aiofiles.open(location+data.filename, 'wb') as dataset:
         content = await data.read()
         await dataset.write(content) 
@@ -37,7 +38,7 @@ async def read_item(model_name: str, data: UploadFile = File(...)):
  
     y = np.dot(X, np.array([1, 2])) + 3
     reg = LinearRegression().fit(X, y)
-    async with aiofiles.open('model.pickle', 'wb') as dump_var:
-        pickle.dump(reg, dump_var)
-
-    return FileResponse('model.pickle')
+    
+    pickle.dump(reg, open('model.pkl', 'wb'))
+    
+    return FileResponse(Path('model.pkl'), media_type=".pkl", filename="model.pkl")
