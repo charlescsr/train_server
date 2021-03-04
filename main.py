@@ -6,6 +6,7 @@ from pydantic import BaseModel
 import aiofiles
 from pathlib import Path
 import os
+import pandas as pd
 import numpy as np
 import pickle
 from sklearn.linear_model import LinearRegression, LogisticRegression
@@ -30,14 +31,25 @@ async def ping():
 
 @app.post("/model_set/{model_name}/", response_class=FileResponse)
 async def read_item(model_name: str, data: UploadFile = File(...)):
-    location = r"C:\\Users\\rchar\\Downloads\\train_server\\"
+    location = os.environ['MAIN_PATH']
+    model = models[model_name]
     async with aiofiles.open(location+data.filename, 'wb') as dataset:
         content = await data.read()
-        await dataset.write(content) 
-    X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
+        await dataset.write(content)
+    
+    df = pd.read_csv(location+data.filename)
+    os.remove(location+data.filename)
+    df.dropna(how="any", inplace=True)
+    cols = []
+    for col in df.columns:
+        cols.append(str(col))
+
+    print(type(cols))
+    X = df.drop(cols[-1], axis=1)
  
-    y = np.dot(X, np.array([1, 2])) + 3
-    reg = LinearRegression().fit(X, y)
+    y = df[cols[-1]]
+    
+    reg = model.fit(X, y)
     
     pickle.dump(reg, open('model.pkl', 'wb'))
     
