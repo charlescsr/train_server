@@ -89,6 +89,9 @@ async def read_item(model_name: str, data: UploadFile = File(...)):
     
 
     df = pd.read_csv(location+data.filename)
+    if any(df.columns.str.contains('^Unnamed')):
+        df = pd.read_csv(location+data.filename, index_col=0)
+
     df.dropna(how="any", inplace=True)
     cols = []
     for col in df.columns:
@@ -123,15 +126,17 @@ async def create_html(data: UploadFile = File(...)):
     h1.write(html_1)
     h1.close()
     df = pd.read_csv(location+data.filename)
-    print(df.dtypes)
+    if any(df.columns.str.contains('^Unnamed')):
+        df = pd.read_csv(location+data.filename, index_col=0)
+
     X = df.drop(df.columns[-1], axis=1)
     html_title_2 = html_title + '\n' + "Prediction" + '\n' + end_block
     html_content_2 = html_content + '\n' + form_start 
     for col in X.columns:
-        if col.dtype == 'int':
+        if df[col].dtype == 'int':
             html_content_2 += number_field
 
-        elif col.dtype == 'float':
+        elif df[col].dtype == 'float':
             html_content_2 += float_field
 
         else:
@@ -150,7 +155,8 @@ async def create_html(data: UploadFile = File(...)):
     h3 = open(path+"/predict_ans.html", 'w')
     h3.write(html_3)
     h3.close()
-    shutil.make_archive('templates', 'zip', path+'templates')
-    shutil.rmtree(path+'templates')
+    shutil.make_archive('templates', 'zip', path)
+    os.remove(location+data.filename)
+    shutil.rmtree(path)
 
     return FileResponse(Path('templates.zip'), media_type=".zip", filename="templates.zip")
