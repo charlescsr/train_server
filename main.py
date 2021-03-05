@@ -19,7 +19,6 @@ import shutil
 app = FastAPI()
 models = {"lr": LinearRegression(), "lor": LogisticRegression(), "nb": GaussianNB(), "knn": KNeighborsClassifier(), 
     "dtc": DecisionTreeClassifier(), "rfc": RandomForestClassifier()}
-dataset_name = None
 
 html_start = """
 {% extends "base.html" %}
@@ -58,7 +57,17 @@ form_end = """
 """
 
 number_field = """
+<input type="number">
 
+"""
+
+text_field = """
+<input type="text">
+
+"""
+
+float_field = """
+<input type="number" step=any>
 
 """
 
@@ -72,14 +81,12 @@ async def ping():
 
 @app.post("/model_set/{model_name}/", response_class=FileResponse)
 async def read_item(model_name: str, data: UploadFile = File(...)):
-    global dataset_name
     location = os.environ['MAIN_PATH']
     model = models[model_name]
     async with aiofiles.open(location+data.filename, 'wb') as dataset:
         content = await data.read()
         await dataset.write(content)
     
-    dataset_name = data.filename
 
     df = pd.read_csv(location+data.filename)
     df.dropna(how="any", inplace=True)
@@ -94,31 +101,56 @@ async def read_item(model_name: str, data: UploadFile = File(...)):
     reg = model.fit(X, y)
     
     pickle.dump(reg, open('model.pkl', 'wb'))
+    os.remove(location+data.filename)
     
     return FileResponse(Path('model.pkl'), media_type=".pkl", filename="model.pkl")
 
-@app.post('/create_html')
-async def create_html(base_html: UploadFile = File(...)):
+
+@app.post('/create_html/')
+async def create_html(data: UploadFile = File(...)):
     location = os.environ['MAIN_PATH']
     path = os.path.join(os.environ['MAIN_PATH'], 'templates')
     os.mkdir(path)
-    async with aiofiles.open(location+base_html.filename, 'w') as html_file:
-        content = await base_html.read()
-        await html_file.write(content)
+    async with aiofiles.open(location+data.filename, 'wb') as dataset:
+        content = await data.read()
+        await dataset.write(content)
 
     html_title_1 = html_title + '\n' + "Main Page" + '\n' + end_block
 
     html_content_1 = html_content + '\n' + "<h2>Welcome to the generated application.</h2> <br> <h3>Click the button to start.</h3><br><br>" + button_code + '\n' +end_block
     html_1 = html_start + '\n' + html_title_1 + '\n' + html_content_1
-    h1 = open(path+"index.html", 'w')
+    h1 = open(path+"/index.html", 'w')
     h1.write(html_1)
     h1.close()
-    df = pd.read_csv(dataset_name)
+    df = pd.read_csv(location+data.filename)
+    print(df.dtypes)
     X = df.drop(df.columns[-1], axis=1)
- 
-    
+    html_title_2 = html_title + '\n' + "Prediction" + '\n' + end_block
+    html_content_2 = html_content + '\n' + form_start 
+    for col in X.columns:
+        if col.dtype == 'int':
+            html_content_2 += number_field
 
+        elif col.dtype == 'float':
+            html_content_2 += float_field
 
-    
+        else:
+            html_content_2 += text_field
 
-    return {"OK"}
+    html_content_2 += form_end + end_block
+
+    html_2 = html_start + '\n' + html_title_2 + '\n' + html_content_2
+    h2 = open(path+"/make_predict.html", 'w')
+    h2.write(html_2)
+    h2.close()
+
+    html_title_3 = html_title + '\n' + "Answer" + end_block
+    html_content_3 = html_content + '\n' + "The " + df.columns[-1] + " is {{{{answer}}}}<br><br> with accuracy of {{{{acc}}}}" + '\n' + end_block
+    html_3 = html_start + '\n' + html_title_3 + '\n' + html_content_3
+    h3 = open(path+"/predict_ans.html", 'w')
+    h3.write(html_3)
+    h3.close()
+    shutil.make_archive('templates', 'zip', path+'templates')
+    shutil.rmtree(path+'templates')
+
+    return FileResponse(Path('templates.zip'), media_type=".zip", filename="templates.zip")
