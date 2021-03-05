@@ -124,13 +124,13 @@ async def create_html(data: UploadFile = File(...)):
     html_content_2 = html_content + '\n' + form_start 
     for col in X.columns:
         if df[col].dtype == 'int':
-            html_content_2 += number_field + 'name=' + str(col) + ">"
+            html_content_2 += number_field + ' name=' + str(col) + ">"
 
         elif df[col].dtype == 'float':
-            html_content_2 += float_field + 'name=' + str(col) + ">"
+            html_content_2 += float_field + ' name=' + str(col) + ">"
 
         else:
-            html_content_2 += text_field + 'name=' + str(col) + ">"
+            html_content_2 += text_field + ' name=' + str(col) + ">"
 
     html_content_2 += form_end + end_block
 
@@ -140,7 +140,7 @@ async def create_html(data: UploadFile = File(...)):
     h2.close()
 
     html_title_3 = html_title + '\n' + "Answer" + end_block
-    html_content_3 = html_content + '\n' + "The " + df.columns[-1] + " is {{{{answer}}}}<br><br> with accuracy of {{{{acc}}}}" + '\n' + end_block
+    html_content_3 = html_content + '\n' + "The " + df.columns[-1] + " is {{answer}}<br><br> with accuracy of {{acc}}" + '\n' + end_block
     html_3 = html_start + '\n' + html_title_3 + '\n' + html_content_3
     h3 = open(path+"/predict_ans.html", 'w')
     h3.write(html_3)
