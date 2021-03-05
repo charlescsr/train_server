@@ -2,7 +2,6 @@ from typing import Optional
 
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse
-from pydantic import BaseModel
 import aiofiles
 from pathlib import Path
 import os
@@ -56,20 +55,11 @@ form_end = """
 
 """
 
-number_field = """
-<input type="number">
+number_field = """<input type='number'"""
 
-"""
+text_field = """<input type='text'"""
 
-text_field = """
-<input type="text">
-
-"""
-
-float_field = """
-<input type="number" step=any>
-
-"""
+float_field = """<input type='number' step=any"""
 
 @app.get("/")
 async def read_root():
@@ -134,13 +124,13 @@ async def create_html(data: UploadFile = File(...)):
     html_content_2 = html_content + '\n' + form_start 
     for col in X.columns:
         if df[col].dtype == 'int':
-            html_content_2 += number_field
+            html_content_2 += number_field + 'name=' + str(col) + ">"
 
         elif df[col].dtype == 'float':
-            html_content_2 += float_field
+            html_content_2 += float_field + 'name=' + str(col) + ">"
 
         else:
-            html_content_2 += text_field
+            html_content_2 += text_field + 'name=' + str(col) + ">"
 
     html_content_2 += form_end + end_block
 
