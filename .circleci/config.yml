@@ -1,0 +1,59 @@
+version: 2.1
+
+#########
+# Common
+#########
+orbs:
+  heroku: circleci/heroku@1.0.1
+
+############
+# Workflows
+############
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+
+##################
+# Job Definitions
+##################
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.8
+
+    steps:
+      - checkout
+      
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+      
+      - run:
+          name: Install Python Dependencies
+          command: |
+            pipenv install
+      
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          paths:
+            - 'venv'
+          
+  deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+      - add_ssh_keys:
+          fingerprints:
+            - $SSH_KEY
+      - heroku/install
+      - heroku/deploy-via-git:
+          force: true
