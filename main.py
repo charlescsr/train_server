@@ -40,17 +40,18 @@ html_content = """
 """
 
 button_code = """
-<a role="button" href="{{{{url_for('make_predict'}}}}">Head to Prediction</a>
+<a role="button" href="{{url_for('make_predict')}}">Head to Prediction</a>
 
 """
 
 form_start = """
-<form align="center" action="{{{{url_for('predict')}}}}" method="POST">
+<form align="center" action="{{url_for('predict_ans')}}" method="POST">
 
 
 """
 
 form_end = """
+<input type="submit" value="Predict">
 </form>
 
 """
@@ -110,7 +111,7 @@ async def create_html(data: UploadFile = File(...)):
 
     html_title_1 = html_title + '\n' + "Main Page" + '\n' + end_block
 
-    html_content_1 = html_content + '\n' + "<h2>Welcome to the generated application.</h2> <br> <h3>Click the button to start.</h3><br><br>" + button_code + '\n' +end_block
+    html_content_1 = html_content + '\n' + "<div align='center'><h2>Welcome to the generated application.</h2> <br> <h3>Click the button to start.</h3><br><br>" + button_code + '\n</div>' +end_block
     html_1 = html_start + '\n' + html_title_1 + '\n' + html_content_1
     h1 = open(path+"/index.html", 'w')
     h1.write(html_1)
@@ -124,13 +125,16 @@ async def create_html(data: UploadFile = File(...)):
     html_content_2 = html_content + '\n' + form_start 
     for col in X.columns:
         if df[col].dtype == 'int':
-            html_content_2 += number_field + ' name=' + str(col) + ">"
+            label = "<label for=" + "'{}'".format(str(col)) + ">" + str(col) + "</label>"
+            html_content_2 += label + '\n' + number_field + ' name=' + "'{}'".format(str(col)) + ">"
 
         elif df[col].dtype == 'float':
-            html_content_2 += float_field + ' name=' + str(col) + ">"
+            label = "<label for=" + "'{}'".format(str(col)) + ">" + str(col) + "</label>"
+            html_content_2 += label + '\n' + float_field + ' name=' + "'{}'".format(str(col)) + ">"
 
         else:
-            html_content_2 += text_field + ' name=' + str(col) + ">"
+            label = "<label for=" + "'{}'".format(str(col)) + ">" + str(col) + "</label>"
+            html_content_2 += label + '\n' + text_field + ' name=' + "'{}'".format(str(col)) + ">"
 
     html_content_2 += form_end + end_block
 
@@ -140,7 +144,7 @@ async def create_html(data: UploadFile = File(...)):
     h2.close()
 
     html_title_3 = html_title + '\n' + "Answer" + end_block
-    html_content_3 = html_content + '\n' + "The " + df.columns[-1] + " is {{answer}}<br><br> with accuracy of {{acc}}" + '\n' + end_block
+    html_content_3 = html_content + '\n' + "<div align='center'><h2>The " + df.columns[-1] + " is {{answer}}<br><br> with accuracy of {{acc}}%</h2></div>" + '\n' + end_block
     html_3 = html_start + '\n' + html_title_3 + '\n' + html_content_3
     h3 = open(path+"/predict_ans.html", 'w')
     h3.write(html_3)
