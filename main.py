@@ -1,6 +1,7 @@
 from typing import Optional
 
 from fastapi import FastAPI, File, UploadFile
+import uvicorn
 from fastapi.responses import FileResponse
 import aiofiles
 from pathlib import Path
@@ -154,3 +155,6 @@ async def create_html(data: UploadFile = File(...)):
     shutil.rmtree(path)
 
     return FileResponse(Path('templates.zip'), media_type=".zip", filename="templates.zip")
+
+if __name__ == "__main__":
+    uvicorn.run("main:app")
