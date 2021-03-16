@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/charlescsr/train_server.svg?style=svg)](https://circleci.com/gh/charlescsr/train_server) [![AGPL-3.0 License](https://img.shields.io/badge/license-AGPL-green.svg?style=flat)](LICENSE)
 
-FastAPI server to help in training the ML model and generate the HTML templates for Flask application over [here](https://github.com/charlescsr/implogn-visintei-dating) 
+FastAPI server to help in training the ML model and generate the HTML templates for Flask application over [here](https://github.com/charlescsr/implogn-visintei-datifing) 
 
 ## Procedure:
 
