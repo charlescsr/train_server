@@ -127,15 +127,15 @@ async def create_html(data: UploadFile = File(...)):
     for col in X.columns:
         if df[col].dtype == 'int':
             label = "<label for=" + "'{}'".format(str(col)) + ">" + str(col) + "</label>"
-            html_content_2 += label + '\n' + number_field + ' name=' + "'{}'".format(str(col)) + ">"
+            html_content_2 += label + '\n' + number_field + ' name=' + "'{}'".format(str(col)) + "><br><br><br><br>"
 
         elif df[col].dtype == 'float':
             label = "<label for=" + "'{}'".format(str(col)) + ">" + str(col) + "</label>"
-            html_content_2 += label + '\n' + float_field + ' name=' + "'{}'".format(str(col)) + ">"
+            html_content_2 += label + '\n' + float_field + ' name=' + "'{}'".format(str(col)) + "><br><br><br><br>"
 
         else:
             label = "<label for=" + "'{}'".format(str(col)) + ">" + str(col) + "</label>"
-            html_content_2 += label + '\n' + text_field + ' name=' + "'{}'".format(str(col)) + ">"
+            html_content_2 += label + '\n' + text_field + ' name=' + "'{}'".format(str(col)) + "><br><br><br><br>"
 
     html_content_2 += form_end + end_block
 
