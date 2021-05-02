@@ -20,6 +20,251 @@ app = FastAPI()
 models = {"lr": LinearRegression(), "lor": LogisticRegression(), "nb": GaussianNB(), "knn": KNeighborsClassifier(), 
     "dtc": DecisionTreeClassifier(), "rfc": RandomForestClassifier()}
 
+html_index = """
+
+{% extends "base.html" %}
+
+
+{% block title %}
+
+
+Main Page
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<!--<button type='button' class="btn btn-primary my-4"><a role="button" href="{{url_for('make_predict')}}">Head to Prediction</a></button>-->
+
+<div class="main-content" >
+    <!-- Navbar -->
+    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main"  >
+        <div class="container-fluid">
+            <!-- Brand -->
+            <p class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
+                Generated App
+            </p>
+            <!-- Form -->
+
+            <!-- User -->
+
+        </div>
+    </nav>
+    <!-- End Navbar -->
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8" >
+        <div class="container-fluid">
+            <div class="header-body">
+                <!-- Card stats -->
+
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--7">
+        <!-- Form -->
+        <div class="row">
+
+            <div class="col-xl-12 order-xl-1">
+
+                <div class="card bg-secondary shadow">
+
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0"></h3>
+                            </div>
+                            <div class="col-4 text-right">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body" >
+                        <form action="{{url_for('predict_get')}}" method="post">    
+                            <div align='center' class="form-group">
+                                <button type="submit" class="btn btn-primary my-4">Head to Prediction</button>
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+</div>
+{% endblock %}
+
+"""
+
+html_predict_get = """
+
+{% extends "base.html" %}
+
+
+{% block title %}
+
+
+Prediction
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="main-content" >
+    <!-- Navbar -->
+    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main"  >
+        <div class="container-fluid">
+            <!-- Brand -->
+            <p class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
+                Generated App
+            </p>
+            <!-- Form -->
+
+            <!-- User -->
+
+        </div>
+    </nav>
+    <!-- End Navbar -->
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8" >
+        <div class="container-fluid">
+            <div class="header-body">
+                <!-- Card stats -->
+
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--7">
+        <!-- Form -->
+        <div class="row">
+
+            <div class="col-xl-12 order-xl-1">
+
+                <div class="card bg-secondary shadow">
+
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <form action="/predict_ans" method="POST" enctype="multipart/form-data">
+                                    <h6 class="heading-small text-muted mb-4">experience</h6>
+                                    <div class="pl-lg-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="experience"></label>
+                                                    <input name="experience" class="form-control form-control-alternative" type="number" step=any>
+                                                </div>
+                                            </div>
+                                        </div>
+                                
+                                    </div>
+                                    <hr class="my-4" />
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary my-4">Predict</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-4 text-right">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+"""
+
+html_predict_post = """
+
+{% extends "base.html" %}
+
+
+{% block title %}
+
+
+Answer
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<div class="main-content" >
+    <!-- Navbar -->
+    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main"  >
+        <div class="container-fluid">
+            <!-- Brand -->
+            <p class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
+                Generated App
+            </p>
+            <!-- Form -->
+
+            <!-- User -->
+
+        </div>
+    </nav>
+    <!-- End Navbar -->
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8" >
+        <div class="container-fluid">
+            <div class="header-body">
+                <!-- Card stats -->
+
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--7">
+        <!-- Form -->
+        <div class="row">
+
+            <div class="col-xl-12 order-xl-1">
+
+                <div class="card bg-secondary shadow">
+
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                                <div class="pl-lg-4">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2 class="heading-medium text-muted mb-2">The salary is {{answer}}<br><br> with accuracy of {{acc}}%</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="col-4 text-right">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+"""
+
+
 html_start = """
 {% extends "base.html" %}
 """
@@ -40,22 +285,149 @@ html_content = """
 
 """
 
+content_base = """
+<div class="main-content" >
+    <!-- Navbar -->
+    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main"  >
+        <div class="container-fluid">
+            <!-- Brand -->
+            <p class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
+                Generated App
+            </p>
+            <!-- Form -->
+
+            <!-- User -->
+
+        </div>
+    </nav>
+    <!-- End Navbar -->
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8" >
+        <div class="container-fluid">
+            <div class="header-body">
+                <!-- Card stats -->
+
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--7">
+        <!-- Form -->
+        <div class="row">
+
+            <div class="col-xl-12 order-xl-1">
+
+                <div class="card bg-secondary shadow">
+
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0"></h3>
+                            </div>
+                            <div class="col-4 text-right">
+
+                            </div>
+                        </div>
+                    </div>
+
+"""
+
+content_mid = """
+<div class="card-body">
+
+"""
+
+content_mid_end = """
+</div>
+
+"""
+
+content_end = """
+</div>
+
+            </div>
+        </div>
+
+</div>
+
+"""
+
 button_code = """
-<a role="button" href="{{url_for('predict_get')}}" style='color:white;'>Head to Prediction</a>
+<form action="{{url_for('predict_get')}}" method="post">    
+    <div align='center' class="form-group">
+        <button type="submit" class="btn btn-primary my-4">Head to Prediction</button>
+    </div>
+</form>
 
 """
 
 form_start = """
-<form align="center" action="{{url_for('predict_post')}}" method="POST">
+<form action="/predict_post" method="POST" enctype="multipart/form-data">
 
 
 """
 
-form_end = """
-<input type="submit" value="Predict">
+form_submit = """
+<hr class="my-4" />
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary my-4">Predict</button>
+    </div>
 </form>
 
 """
+
+form_end_1 = """
+</div>
+                            <div class="col-4 text-right">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+"""
+
+html_content_2 = """
+<div class="main-content" >
+    <!-- Navbar -->
+    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main"  >
+        <div class="container-fluid">
+            <!-- Brand -->
+            <p class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
+                Generated App
+            </p>
+            <!-- Form -->
+
+            <!-- User -->
+
+        </div>
+    </nav>
+    <!-- End Navbar -->
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8" >
+        <div class="container-fluid">
+            <div class="header-body">
+                <!-- Card stats -->
+
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--7">
+        <!-- Form -->
+        <div class="row">
+
+            <div class="col-xl-12 order-xl-1">
+
+                <div class="card bg-secondary shadow">
+
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+
+"""
+
 
 number_field = """<input type='number'"""
 
@@ -155,6 +527,34 @@ async def create_html(data: UploadFile = File(...)):
     shutil.rmtree(path)
 
     return FileResponse(Path('templates.zip'), media_type=".zip", filename="templates.zip")
+
+@app.post('/create_html_nuvo/')
+async def create_html_nuvo(data: UploadFile = File(...)):
+    location = os.environ['MAIN_PATH']
+    path = os.path.join(os.environ['MAIN_PATH'], 'templates')
+    os.mkdir(path)
+    async with aiofiles.open(location+data.filename, 'wb') as dataset:
+        content = await data.read()
+        await dataset.write(content)
+
+    h1 = open(path+"/index.html", 'w')
+    h1.write(html_index)
+    h1.close()
+
+    h2 = open(path+"/predict_get.html", 'w')
+    h2.write(html_predict_get)
+    h2.close()
+
+    h3 = open(path+"/predict_post.html", 'w')
+    h3.write(html_predict_post)
+    h3.close()
+
+    shutil.make_archive('templates', 'zip', path)
+    os.remove(location+data.filename)
+    shutil.rmtree(path)
+
+    return FileResponse(Path('templates.zip'), media_type=".zip", filename="templates.zip")
+    
 
 if __name__ == "__main__":
     uvicorn.run("main:app")
