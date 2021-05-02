@@ -41,12 +41,12 @@ html_content = """
 """
 
 button_code = """
-<a role="button" href="{{url_for('make_predict')}}" style='color:white;'>Head to Prediction</a>
+<a role="button" href="{{url_for('predict_get')}}" style='color:white;'>Head to Prediction</a>
 
 """
 
 form_start = """
-<form align="center" action="{{url_for('predict_ans')}}" method="POST">
+<form align="center" action="{{url_for('predict_post')}}" method="POST">
 
 
 """
