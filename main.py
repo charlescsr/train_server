@@ -37,8 +37,6 @@ Main Page
 {% block content %}
 
 
-<!--<button type='button' class="btn btn-primary my-4"><a role="button" href="{{url_for('make_predict')}}">Head to Prediction</a></button>-->
-
 <div class="main-content" >
     <!-- Navbar -->
     <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main"  >
