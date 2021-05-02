@@ -37,9 +37,9 @@ Main Page
 {% block content %}
 
 
-<div class="main-content" >
+<div class="main-content">
     <!-- Navbar -->
-    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main"  >
+    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
         <div class="container-fluid">
             <!-- Brand -->
             <p class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
@@ -151,7 +151,7 @@ Prediction
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <form action="/predict_ans" method="POST" enctype="multipart/form-data">
+                                <form action="/predict_post" method="POST" enctype="multipart/form-data">
                                     <h6 class="heading-small text-muted mb-4">experience</h6>
                                     <div class="pl-lg-4">
                                         <div class="row">
