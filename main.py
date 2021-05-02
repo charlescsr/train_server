@@ -140,14 +140,14 @@ async def create_html(data: UploadFile = File(...)):
     html_content_2 += form_end + end_block
 
     html_2 = html_start + '\n' + html_title_2 + '\n' + html_content_2
-    h2 = open(path+"/make_predict.html", 'w')
+    h2 = open(path+"/predict_get.html", 'w')
     h2.write(html_2)
     h2.close()
 
     html_title_3 = html_title + '\n' + "Answer" + end_block
     html_content_3 = html_content + '\n' + "<div align='center'><h2 style='color:white;'>The " + df.columns[-1] + " is {{answer}}<br><br> with accuracy of {{acc}}%</h2></div>" + '\n' + end_block
     html_3 = html_start + '\n' + html_title_3 + '\n' + html_content_3
-    h3 = open(path+"/predict_ans.html", 'w')
+    h3 = open(path+"/predict_post.html", 'w')
     h3.write(html_3)
     h3.close()
     shutil.make_archive('templates', 'zip', path)
