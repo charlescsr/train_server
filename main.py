@@ -35,11 +35,9 @@ Main Page
 
 
 {% block content %}
-
-
-<div class="main-content">
+<div class="main-content" >
     <!-- Navbar -->
-    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main"  >
         <div class="container-fluid">
             <!-- Brand -->
             <p class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
@@ -101,6 +99,7 @@ Main Page
 
 html_predict_get = """
 
+
 {% extends "base.html" %}
 
 
@@ -151,7 +150,7 @@ Prediction
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <form action="/predict_post" method="POST" enctype="multipart/form-data">
+                                <form action="{{url_for('predict_post')}}" method="POST" enctype="multipart/form-data">
                                     <h6 class="heading-small text-muted mb-4">experience</h6>
                                     <div class="pl-lg-4">
                                         <div class="row">
@@ -184,6 +183,7 @@ Prediction
 
 
 {% endblock %}
+
 """
 
 html_predict_post = """
@@ -507,7 +507,7 @@ async def create_html(data: UploadFile = File(...)):
             label = "<label for=" + "'{}'".format(str(col)) + " style='color:white;'>" + str(col) + "</label>"
             html_content_2 += label + '\n' + text_field + ' name=' + "'{}'".format(str(col)) + "><br><br><br><br>"
 
-    html_content_2 += form_end + end_block
+    html_content_2 += form_end_1 + end_block
 
     html_2 = html_start + '\n' + html_title_2 + '\n' + html_content_2
     h2 = open(path+"/predict_get.html", 'w')
