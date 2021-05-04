@@ -74,7 +74,7 @@ Prediction
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <form action="{{url_for('predict_post')}}" method="POST" enctype="multipart/form-data">
+                                <form action="{{url_for('result')}}" method="POST" enctype="multipart/form-data">
                                     <h6 class="heading-small text-muted mb-4">experience</h6>
                                     <div class="pl-lg-4">
                                         <div class="row">
