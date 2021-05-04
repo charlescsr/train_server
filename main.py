@@ -20,84 +20,8 @@ app = FastAPI()
 models = {"lr": LinearRegression(), "lor": LogisticRegression(), "nb": GaussianNB(), "knn": KNeighborsClassifier(), 
     "dtc": DecisionTreeClassifier(), "rfc": RandomForestClassifier()}
 
-html_index = """
 
-{% extends "base.html" %}
-
-
-{% block title %}
-
-
-Main Page
-
-{% endblock %}
-
-
-
-{% block content %}
-<div class="main-content" >
-    <!-- Navbar -->
-    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main"  >
-        <div class="container-fluid">
-            <!-- Brand -->
-            <p class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
-                Generated App
-            </p>
-            <!-- Form -->
-
-            <!-- User -->
-
-        </div>
-    </nav>
-    <!-- End Navbar -->
-    <!-- Header -->
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8" >
-        <div class="container-fluid">
-            <div class="header-body">
-                <!-- Card stats -->
-
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid mt--7">
-        <!-- Form -->
-        <div class="row">
-
-            <div class="col-xl-12 order-xl-1">
-
-                <div class="card bg-secondary shadow">
-
-                    <div class="card-header bg-white border-0">
-                        <div class="row align-items-center">
-                            <div class="col-8">
-                                <h3 class="mb-0"></h3>
-                            </div>
-                            <div class="col-4 text-right">
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-body" >
-                        <form action="{{url_for('predict_get')}}" method="post">    
-                            <div align='center' class="form-group">
-                                <button type="submit" class="btn btn-primary my-4">Head to Prediction</button>
-                            </div>
-                        </form>
-                    </div>
-
-
-                </div>
-
-            </div>
-        </div>
-
-</div>
-{% endblock %}
-
-"""
-
-html_predict_get = """
+html_predict = """
 
 
 {% extends "base.html" %}
@@ -186,7 +110,7 @@ Prediction
 
 """
 
-html_predict_post = """
+html_result = """
 
 {% extends "base.html" %}
 
@@ -535,17 +459,17 @@ async def create_html_nuvo(data: UploadFile = File(...)):
         content = await data.read()
         await dataset.write(content)
 
-    h1 = open(path+"/index.html", 'w')
+    '''h1 = open(path+"/index.html", 'w')
     h1.write(html_index)
+    h1.close()'''
+
+    h1 = open(path+"/predict.html", 'w')
+    h1.write(html_predict)
     h1.close()
 
-    h2 = open(path+"/predict_get.html", 'w')
-    h2.write(html_predict_get)
+    h2 = open(path+"/result.html", 'w')
+    h2.write(html_result)
     h2.close()
-
-    h3 = open(path+"/predict_post.html", 'w')
-    h3.write(html_predict_post)
-    h3.close()
 
     shutil.make_archive('templates', 'zip', path)
     os.remove(location+data.filename)
