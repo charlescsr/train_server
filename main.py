@@ -185,29 +185,23 @@ Answer
 {% endblock %}
 
 """
-
-
-html_start = """
+html_start = '''
 {% extends "base.html" %}
-"""
+'''
 
-html_title = """
+title_start = '''
 {% block title %}
+'''
 
-"""
-
-end_block = """
+end_block = '''
 {% endblock %}
+'''
 
-"""
-
-html_content = """
+content_start = '''
 {% block content %}
+'''
 
-
-"""
-
-content_base = """
+content_tag_start = '''
 <div class="main-content" >
     <!-- Navbar -->
     <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main"  >
@@ -243,62 +237,107 @@ content_base = """
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0"></h3>
-                            </div>
-                            <div class="col-4 text-right">
+'''
 
-                            </div>
-                        </div>
+form_start = '''<form action="/result" method="POST" enctype="multipart/form-data">'''
+
+float_field = '''<h6 class="heading-small text-muted mb-4">{}</h6>
+<div class="pl-lg-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="form-control-label" for="{}"></label>
+                <input name="{}" class="form-control form-control-alternative" type="number" step=any>
+            </div>
+        </div>
+    </div>
+</div>
+'''
+
+int_field = '''<h6 class="heading-small text-muted mb-4">{}</h6>
+<div class="pl-lg-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="form-control-label" for="{}"></label>
+                <input name="{}" class="form-control form-control-alternative" type="number">
+            </div>
+        </div>
+    </div>
+</div>
+'''
+
+text_field = '''<h6 class="heading-small text-muted mb-4">{}</h6>
+<div class="pl-lg-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="form-control-label" for="{}"></label>
+                <input name="{}" class="form-control form-control-alternative" type="text">
+            </div>
+        </div>
+    </div>
+</div>
+'''
+
+form_end = '''<hr class="my-4" />
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary my-4">Predict</button>
                     </div>
+                </form>
+            </div>
+            <div class="col-4 text-right">
+            </div>
+        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>'''
 
-"""
+result_content = '''
+<div class="main-content" >
+    <!-- Navbar -->
+    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main"  >
+        <div class="container-fluid">
+            <!-- Brand -->
+            <p class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
+                Generated App
+            </p>
+            <!-- Form -->
 
-content_mid = """
-<div class="card-body">
+            <!-- User -->
 
-"""
-
-content_mid_end = """
-</div>
-
-"""
-
-content_end = """
-</div>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8" >
+        <div class="container-fluid">
+            <div class="header-body">
+                <!-- Card stats -->
 
             </div>
         </div>
-
-</div>
-
-"""
-
-button_code = """
-<form action="{{url_for('predict_get')}}" method="post">    
-    <div align='center' class="form-group">
-        <button type="submit" class="btn btn-primary my-4">Head to Prediction</button>
     </div>
-</form>
+    <div class="container-fluid mt--7">
+        <!-- Form -->
+        <div class="row">
 
-"""
+            <div class="col-xl-12 order-xl-1">
 
-form_start = """
-<form action="/predict_post" method="POST" enctype="multipart/form-data">
+                <div class="card bg-secondary shadow">
 
-
-"""
-
-form_submit = """
-<hr class="my-4" />
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary my-4">Predict</button>
-    </div>
-</form>
-
-"""
-
-form_end_1 = """
-</div>
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                                <div class="pl-lg-4">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2 class="heading-medium text-muted mb-2">{} is {{answer}}<br><br> with accuracy of {{acc}}%</h2>
+                                        </div>
+                                    </div>
+                                </div>
                             <div class="col-4 text-right">
                             </div>
                         </div>
@@ -308,54 +347,7 @@ form_end_1 = """
         </div>
     </div>
 </div>
-
-"""
-
-html_content_2 = """
-<div class="main-content" >
-    <!-- Navbar -->
-    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main"  >
-        <div class="container-fluid">
-            <!-- Brand -->
-            <p class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
-                Generated App
-            </p>
-            <!-- Form -->
-
-            <!-- User -->
-
-        </div>
-    </nav>
-    <!-- End Navbar -->
-    <!-- Header -->
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8" >
-        <div class="container-fluid">
-            <div class="header-body">
-                <!-- Card stats -->
-
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid mt--7">
-        <!-- Form -->
-        <div class="row">
-
-            <div class="col-xl-12 order-xl-1">
-
-                <div class="card bg-secondary shadow">
-
-                    <div class="card-header bg-white border-0">
-                        <div class="row align-items-center">
-                            <div class="col-8">
-
-"""
-
-
-number_field = """<input type='number'"""
-
-text_field = """<input type='text'"""
-
-float_field = """<input type='number' step=any"""
+'''
 
 @app.get("/")
 async def read_root():
@@ -394,7 +386,7 @@ async def read_item(model_name: str, data: UploadFile = File(...)):
     
     return FileResponse(Path('model.pkl'), media_type=".pkl", filename="model.pkl")
 
-
+'''
 @app.post('/create_html/')
 async def create_html(data: UploadFile = File(...)):
     location = os.environ['MAIN_PATH']
@@ -449,27 +441,52 @@ async def create_html(data: UploadFile = File(...)):
     shutil.rmtree(path)
 
     return FileResponse(Path('templates.zip'), media_type=".zip", filename="templates.zip")
+'''
 
 @app.post('/create_html_nuvo/')
 async def create_html_nuvo(data: UploadFile = File(...)):
     location = os.environ['MAIN_PATH']
+    if os.path.isfile("templates.zip"):
+        os.remove("templates.zip")
+
     path = os.path.join(os.environ['MAIN_PATH'], 'templates')
     os.mkdir(path)
     async with aiofiles.open(location+data.filename, 'wb') as dataset:
         content = await data.read()
         await dataset.write(content)
 
-    '''h1 = open(path+"/index.html", 'w')
-    h1.write(html_index)
-    h1.close()'''
+    df = pd.read_csv(location+data.filename)
+    if any(df.columns.str.contains('^Unnamed')):
+        df = pd.read_csv(location+data.filename, index_col=0)
 
-    h1 = open(path+"/predict.html", 'w')
-    h1.write(html_predict)
-    h1.close()
+    X = df.drop(df.columns[-1], axis=1)
 
-    h2 = open(path+"/result.html", 'w')
-    h2.write(html_result)
+    html_title_1 = title_start + '\n' + "Prediction" + '\n' + end_block
+    html_title_2 = title_start + '\n' + "Result" + '\n' + end_block
+
+    html_content_1 = content_start + '\n' + content_tag_start + '\n' + form_start
+
+    for col in X.columns:
+        if df[col].dtype == 'int':
+            html_content_1 += int_field.format(col, col, col)
+
+        elif df[col].dtype == 'float':
+            html_content_1 += float_field.format(col, col, col)
+
+        else:
+            html_content_1 += text_field.format(col, col, col)
+
+    html_content_1 += form_end + end_block
+    html_1 = html_start + '\n' + html_title_1 + '\n' + html_content_1
+    h2 = open(path+"/predict.html", 'w')
+    h2.write(html_1)
     h2.close()
+
+    html_content_2 = content_start + '\n' + result_content.format(df.columns[-1])
+    html_2 = html_start + '\n' + html_title_2 + '\n' + html_content_2
+    h3 = open(path+"/result.html", 'w')
+    h3.write(html_2)
+    h3.close()
 
     shutil.make_archive('templates', 'zip', path)
     os.remove(location+data.filename)
