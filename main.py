@@ -1,6 +1,6 @@
 from typing import Optional
 
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, HTTPException
 import uvicorn
 from fastapi.responses import FileResponse
 import aiofiles
@@ -17,174 +17,11 @@ from sklearn.ensemble import RandomForestClassifier
 import shutil
 
 app = FastAPI()
+TOKEN_FOR_STATIC = os.environ['TOKEN_FOR_STATIC']
 models = {"lr": LinearRegression(), "lor": LogisticRegression(), "nb": GaussianNB(), "knn": KNeighborsClassifier(), 
     "dtc": DecisionTreeClassifier(), "rfc": RandomForestClassifier()}
 
 
-html_predict = """
-
-
-{% extends "base.html" %}
-
-
-{% block title %}
-
-
-Prediction
-
-{% endblock %}
-
-
-
-{% block content %}
-
-
-<div class="main-content" >
-    <!-- Navbar -->
-    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main"  >
-        <div class="container-fluid">
-            <!-- Brand -->
-            <p class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
-                Generated App
-            </p>
-            <!-- Form -->
-
-            <!-- User -->
-
-        </div>
-    </nav>
-    <!-- End Navbar -->
-    <!-- Header -->
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8" >
-        <div class="container-fluid">
-            <div class="header-body">
-                <!-- Card stats -->
-
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid mt--7">
-        <!-- Form -->
-        <div class="row">
-
-            <div class="col-xl-12 order-xl-1">
-
-                <div class="card bg-secondary shadow">
-
-                    <div class="card-header bg-white border-0">
-                        <div class="row align-items-center">
-                            <div class="col-8">
-                                <form action="{{url_for('result')}}" method="POST" enctype="multipart/form-data">
-                                    <h6 class="heading-small text-muted mb-4">experience</h6>
-                                    <div class="pl-lg-4">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="form-control-label" for="experience"></label>
-                                                    <input name="experience" class="form-control form-control-alternative" type="number" step=any>
-                                                </div>
-                                            </div>
-                                        </div>
-                                
-                                    </div>
-                                    <hr class="my-4" />
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary my-4">Predict</button>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="col-4 text-right">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-{% endblock %}
-
-"""
-
-html_result = """
-
-{% extends "base.html" %}
-
-
-{% block title %}
-
-
-Answer
-{% endblock %}
-
-
-
-{% block content %}
-
-
-
-<div class="main-content" >
-    <!-- Navbar -->
-    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main"  >
-        <div class="container-fluid">
-            <!-- Brand -->
-            <p class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
-                Generated App
-            </p>
-            <!-- Form -->
-
-            <!-- User -->
-
-        </div>
-    </nav>
-    <!-- End Navbar -->
-    <!-- Header -->
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8" >
-        <div class="container-fluid">
-            <div class="header-body">
-                <!-- Card stats -->
-
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid mt--7">
-        <!-- Form -->
-        <div class="row">
-
-            <div class="col-xl-12 order-xl-1">
-
-                <div class="card bg-secondary shadow">
-
-                    <div class="card-header bg-white border-0">
-                        <div class="row align-items-center">
-                                <div class="pl-lg-4">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <h2 class="heading-medium text-muted mb-2">The salary is {{answer}}<br><br> with accuracy of {{acc}}%</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                            <div class="col-4 text-right">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-{% endblock %}
-
-"""
 html_start = '''
 {% extends "base.html" %}
 '''
@@ -443,6 +280,14 @@ async def create_html(data: UploadFile = File(...)):
     return FileResponse(Path('templates.zip'), media_type=".zip", filename="templates.zip")
 '''
 
+@app.post('/get-static/{token}')
+async def get_static(token: str):
+    if token == TOKEN_FOR_STATIC:
+        return FileResponse(Path('static.zip'), media_type=".zip", filename="static.zip")
+
+    else:
+        raise HTTPException(status_code=401, detail="You ain't authorised")
+
 @app.post('/create_html_nuvo/')
 async def create_html_nuvo(data: UploadFile = File(...)):
     location = os.environ['MAIN_PATH']
@@ -483,7 +328,7 @@ async def create_html_nuvo(data: UploadFile = File(...)):
     h2.close()
 
     html_content_2 = content_start + '\n' + result_content.format(df.columns[-1])
-    html_2 = html_start + '\n' + html_title_2 + '\n' + html_content_2
+    html_2 = html_start + '\n' + html_title_2 + '\n' + html_content_2 + '\n' + end_block
     h3 = open(path+"/result.html", 'w')
     h3.write(html_2)
     h3.close()
