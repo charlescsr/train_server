@@ -171,7 +171,7 @@ result_content = '''
                                 <div class="pl-lg-4">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <h2 class="heading-medium text-muted mb-2">{} is {{{answer}}}<br><br> with accuracy of {{{acc}}}%</h2>
+                                            <h2 class="heading-medium text-muted mb-2">{} is {}<br><br> with accuracy of {}%</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -327,7 +327,7 @@ async def create_html_nuvo(data: UploadFile = File(...)):
     h2.write(html_1)
     h2.close()
 
-    html_content_2 = content_start + '\n' + result_content.format(df.columns[-1])
+    html_content_2 = content_start + '\n' + result_content.format(df.columns[-1], "{{answer}}", "{{acc}}")
     html_2 = html_start + '\n' + html_title_2 + '\n' + html_content_2 + '\n' + end_block
     h3 = open(path+"/result.html", 'w')
     h3.write(html_2)
