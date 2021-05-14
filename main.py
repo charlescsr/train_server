@@ -171,7 +171,7 @@ result_content = '''
                                 <div class="pl-lg-4">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <h2 class="heading-medium text-muted mb-2">{} is {{answer}}<br><br> with accuracy of {{acc}}%</h2>
+                                            <h2 class="heading-medium text-muted mb-2">{} is {{{answer}}}<br><br> with accuracy of {{{acc}}}%</h2>
                                         </div>
                                     </div>
                                 </div>
