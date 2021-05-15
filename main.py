@@ -228,9 +228,6 @@ async def read_item(model_name: str, data: UploadFile = File(...)):
 
 @app.post('/get-static/{token}')
 async def get_static(token: str):
-    if os.path.exists("static.zip"):
-        os.remove("static.zip")
-
     if token == TOKEN_FOR_STATIC:
         return FileResponse(Path('static.zip'), media_type=".zip", filename="static.zip")
 
