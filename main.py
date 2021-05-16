@@ -171,7 +171,7 @@ result_content = '''
                                 <div class="pl-lg-4">
                                     <div class="row">
                                         <div class="container" margin="mx-auto d-block">
-                                            <h2 class="heading-medium text-muted mb-2">{} is {}<br><br> with accuracy of {}%</h2>
+                                            <h2 class="heading-medium text-muted mb-2">{} is {} with accuracy of {}%</h2>
                                         </div>
                                     </div>
                                 </div>
