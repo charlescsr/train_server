@@ -170,7 +170,7 @@ result_content = '''
                         <div class="row align-items-center">
                                 <div class="pl-lg-4">
                                     <div class="row">
-                                        <div class="container" margin="mx-auto d-block" style="padding-left:600px">
+                                        <div class="container" margin="mx-auto d-block" style="padding-left:350px">
                                             <h2 class="heading-medium text-muted mb-2">{} is {} with accuracy of {}%</h2>
                                         </div>
                                     </div>
