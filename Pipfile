@@ -12,6 +12,7 @@ aiofiles = "*"
 pandas = "*"
 numpy = "*"
 sklearn = "*"
+pylint = "*"
 
 [dev-packages]
 
