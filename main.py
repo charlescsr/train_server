@@ -193,22 +193,15 @@ RESULT_CONTENT = '''
 </div>
 '''
 
-@app.get("/")
-async def read_root():
-    '''
-        Function for the base of the server
-    '''
-    return {"Hello": "World"}
-
 @app.get("/ping")
 async def ping():
     '''
         Function to ping the server
     '''
-    return {"ping": "pong"}
+    return "pong"
 
 @app.post("/model_set/{model_name}/", response_class=FileResponse)
-async def read_item(model_name: str, data: UploadFile = File(...)):
+async def model_set(model_name: str, data: UploadFile = File(...)):
     '''
         Function to train a Machine Learning model based on the dataset given
     '''
