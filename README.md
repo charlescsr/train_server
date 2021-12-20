@@ -17,7 +17,7 @@ FastAPI server to help in training the ML model and generate the HTML templates 
 
 To set up this project, you require the following:
 
-* Python (Preferably 3.8.x)
+* Python (Preferably >=3.8)
 * Pipenv
   * Can be installed with ```python -m pip install pipenv```
 
